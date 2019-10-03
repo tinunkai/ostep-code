@@ -1,18 +1,23 @@
+TARGET:=target
+all: main
 
-all: cpu mem threads io
+init:
+	mkdir -p target
 
 clean:
-	rm -f cpu mem threads io
+	rm -rf target/*
 
 cpu: cpu.c common.h
-	gcc -o cpu cpu.c -Wall
+	gcc -o $(TARGET)/cpu cpu.c -Wall
 
 mem: mem.c common.h
-	gcc -o mem mem.c -Wall
+	gcc -o $(TARGET)/mem mem.c -Wall
 
 threads: threads.c common.h common_threads.h
-	gcc -o threads threads.c -Wall -pthread
+	gcc -o $(TARGET)/threads threads.c -Wall -pthread
 
 io: io.c common.h
-	gcc -o io io.c -Wall
+	gcc -o $(TARGET)/io io.c -Wall
 
+main: cpu mem threads io
+	./target/io
